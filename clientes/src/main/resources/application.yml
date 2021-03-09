@@ -1,0 +1,13 @@
+micronaut:
+  server:
+    port: 8082
+  application:
+    name: clientes
+datasources:
+  default:
+    url: jdbc:mariadb://localhost:3307/clientedb
+    driverClassName: org.mariadb.jdbc.Driver
+    username: usr_client
+    password: 123r
+    dialect: MYSQL
+jpa.default.properties.hibernate.hbm2ddl.auto: update

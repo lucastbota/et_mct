@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: br.com.bota
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [annotation-api, app-name, http-client, java, java-application, junit, kafka, logback, lombok, maven, mockito, mongo-reactive, netty-server, rabbitmq, readme, shade, testcontainers, yaml]

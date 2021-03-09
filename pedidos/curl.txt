@@ -1,0 +1,13 @@
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://hostname/resource
+
+GET:
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/pedido/{id}
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/pedido
+
+POST:
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8080/pedido -d '{"id":null,"clienteId":"e2676282-8126-4a23-863e-8a3bbcb4fab3", "itens":[{"produtoId":"53f2dbc0-179c-4b91-a231-8a8025de5bd2", "valor":"900", "quantidade":"2"},{"produtoId":"f5ae9761-7c8f-4ac3-aa8f-2b5b03961e93", "valor":"9720.35", "quantidade":"3"},{"produtoId":"fc871373-616e-437d-af2c-bebca1dedbb2", "valor":"1390.78", "quantidade":"4"}]}'
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8080/pedido -d '{"id":null,"clienteId":"e2676282-8126-4a23-863e-8a3bbcb4fab3", "itens":[{"produtoId":"53f2dbc0-179c-4b91-a231-8a8025de5bd2", "valor":"900", "quantidade":"2"},{"produtoId":"f5ae9761-7c8f-4ac3-aa8f-2b5b03961e93", "valor":"11700.00", "quantidade":"1"},{"produtoId":"fc871373-616e-437d-af2c-bebca1dedbb2", "valor":"1390.78", "quantidade":"1"}]}'
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8080/pedido -d '{"id":null,"clienteId":"e2676282-8126-4a23-863e-8a3bbcb4fab3", "itens":[{"produtoId":"53f2dbc0-179c-4b91-a231-8a8025de5bd2", "valor":"900", "quantidade":"2"},{"produtoId":"f5ae9761-7c8f-4ac3-aa8f-2b5b03961e93", "valor":"10000.99", "quantidade":"2"},{"produtoId":"fc871373-616e-437d-af2c-bebca1dedbb2", "valor":"1600.78", "quantidade":"2"}]}'
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8080/pedido -d '{"id":null,"clienteId":"e2676282-8126-4a23-863e-8a3bbcb4fab3", "itens":[{"produtoId":"53f2dbc0-179c-4b91-a231-8a8025de5bd2", "valor":"900", "quantidade":"9"},{"produtoId":"f5ae9761-7c8f-4ac3-aa8f-2b5b03961e93", "valor":"9600.40", "quantidade":"9"},{"produtoId":"fc871373-616e-437d-af2c-bebca1dedbb2", "valor":"1700.78", "quantidade":"1"}]}'
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8080/pedido -d '{"id":null,"clienteId":"676f8e51-570f-468e-a78d-f9596faa0bbd", "itens":[{"produtoId":"93fd809e-48d9-47d3-a553-aa5c72002fce", "valor":"1900", "quantidade":"3"}]}'
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8080/pedido -d '{"id":null,"clienteId":"dfafc942-0500-4d3a-ba0d-835185f4523f", "itens":[{"produtoId":"04ccf126-14c5-496d-88bf-3a2856d8bbbf", "valor":"1450", "quantidade":"3"}]}'

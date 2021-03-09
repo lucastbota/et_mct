@@ -1,0 +1,6 @@
+#entre no container kafka:
+-> docker exec -it a8cf58945066 bash
+#execute o comando
+./kafka-console-producer --broker-list kafka:29092  --topic pedido_entrega -property parse.key=true  --property key.separator=,
+
+> 12345678, {"cliente":"Lucas T. Bota", "endereco":"-20.8267792,-49.3894269"}

@@ -1,0 +1,25 @@
+datasources:
+  default:
+    url: jdbc:tc:mariadb:10.5.8:///db
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - "br.com.bota.entity"
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+        format_sql: true
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+  custom:
+    queue:
+      name: "baixa_estoque_teste"

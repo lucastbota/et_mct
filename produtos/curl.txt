@@ -1,0 +1,8 @@
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://hostname/resource
+
+GET:
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8081/produto/{id}
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8081/produto
+
+POST:
+curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8084/produto -d '{"id":null,"descricao":"Smartphone top", "valor":1600.88, "quantidade": 5000}'
