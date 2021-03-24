@@ -28,6 +28,22 @@ kafka:
   bootstrap:
     servers: localhost:9092
 
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+hystrix.stream.enabled: false
+
 api:
   url:
     cliente: http://localhost:8082/cliente

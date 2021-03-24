@@ -3,6 +3,19 @@ micronaut:
     port: 8082
   application:
     name: clientes
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
+endpoints:
+  prometheus:
+    sensitive: false
+
 datasources:
   default:
     url: jdbc:mariadb://localhost:3307/clientedb
@@ -10,4 +23,19 @@ datasources:
     username: usr_client
     password: 123r
     dialect: MYSQL
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        generate_statistics: true
+        hbm2ddl:
+          auto: update
+
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+hystrix.stream.enabled: false

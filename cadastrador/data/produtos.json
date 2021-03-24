@@ -1,0 +1,68 @@
+[
+    {
+       "id":null,
+       "descricao":"Smart TV LED 60 UHD 4K LG 60UN7310PSA",
+       "valor":3499.00,
+       "quantidade":1000
+    },
+    {
+       "id":null,
+       "descricao":"Notebook Acer Aspire 3 A315-23G-R24V",
+       "valor":4885.81,
+       "quantidade":10000
+    },
+    {
+       "id":null,
+       "descricao":"Monitor LG 32 Widescreen 4K, HDMI/Display Port, FreeSync, Som Integrado, Ajuste de Altura - 32",
+       "valor":4199.00,
+       "quantidade":12000
+    },
+    {
+       "id":null,
+       "descricao":"Chromebook Acer C733T-C2HY Intel Celeron N4020 4GB 32GB eMMC 11.6 - Chrome OS",
+       "valor":2399.00,
+       "quantidade":7800
+    },
+    {
+       "id":null,
+       "descricao":"Forno de Micro-ondas Philco PMO33 com Função Timer Espelhado - 32L",
+       "valor":599.00,
+       "quantidade":5000
+    },
+    {
+       "id":null,
+       "descricao":"Refrigerador Consul Frost Free CRM43NK com 2 Portas Inox - 386 L",
+       "valor":2529.00,
+       "quantidade":13200
+    },
+    {
+       "id":null,
+       "descricao":"Fogão Brastemp 5 Bocas BFS5NCRUNA com Botões Removíveis - Inox",
+       "valor":1399.00,
+       "quantidade":14000
+    },
+    {
+       "id":null,
+       "descricao":"Depurador de Ar Continental Slim DC60B - 60 cm",
+       "valor":249.00,
+       "quantidade":20000
+    },
+    {
+       "id":null,
+       "descricao":"Lava-Louças Electrolux LL08S 8 Serviços – Platinum",
+       "valor":1780.00,
+       "quantidade":6000
+    },
+    {
+       "id":null,
+       "descricao":"Guarda Roupa Casal com Espelho 3 Portas 6 Gavetas Toulon Espresso Móveis Canela/Off White",
+       "valor":2099.90,
+       "quantidade":17200
+    },
+    {
+       "id":null,
+       "descricao":"Home Theater LG LHD625",
+       "valor":999.00,
+       "quantidade":14899
+    }
+ ]

@@ -5,6 +5,8 @@ import br.com.bota.service.EntregaService;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
+import io.micronaut.tracing.annotation.ContinueSpan;
+import io.micronaut.tracing.annotation.SpanTag;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
@@ -16,7 +18,8 @@ public class RecebimentoPacoteEntregaKafkaListener {
     private EntregaService service;
 
     @Topic("pedido_entrega")
-    public void receive(@KafkaKey long key, EntregaDTO entregaDTO) {
+    @ContinueSpan
+    public void receive(@SpanTag("entrega.recebida") @KafkaKey long key, EntregaDTO entregaDTO) {
         log.info("Evento recebido: {}-{}", key, entregaDTO);
         service.criarEntrega(EntregaDTO.toDocument(entregaDTO));
     }

@@ -1,6 +1,0 @@
-applicationType: default
-defaultPackage: br.com.bota
-testFramework: junit
-sourceLanguage: java
-buildTool: maven
-features: [annotation-api, app-name, data, data-jpa, hibernate-validator, http-client, java, java-application, jdbc-hikari, junit, logback, lombok, mariadb, maven, netty-server, readme, shade, testcontainers, yaml]

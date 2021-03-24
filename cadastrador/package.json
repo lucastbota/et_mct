@@ -1,0 +1,11 @@
+{
+  "name": "cadastrador",
+  "version": "1.0.0",
+  "description": "Enviará requisições para as api's do micronaut.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas T. Bota",
+  "license": "ISC"
+}

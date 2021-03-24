@@ -7,6 +7,9 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.tracing.annotation.ContinueSpan;
+import io.micronaut.tracing.annotation.NewSpan;
+import io.micronaut.tracing.annotation.SpanTag;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -19,13 +22,15 @@ public class PedidoResource {
     private PedidoFacade facade;
 
     @Post
-    public HttpResponse<PedidoDTO> criar(PedidoDTO dto) {
+    @ContinueSpan
+    public HttpResponse<PedidoDTO> criar(@SpanTag("pedido.criar") PedidoDTO dto) {
         var toSave = facade.criar(PedidoDTO.toEntity(dto));
         return HttpResponse.ok(PedidoDTO.toDTO(toSave));
     }
 
     @Get("/{clienteId}")
-    public HttpResponse<List<PedidoDTO>> findByClienteId(@PathVariable("clienteId") UUID id) {
+    @ContinueSpan
+    public HttpResponse<List<PedidoDTO>> findByClienteId(@SpanTag("cliente.get") @PathVariable("clienteId") UUID id) {
         var resultados = facade.findBy(id);
         return HttpResponse.ok(resultados.stream().map(PedidoDTO::toDTO).collect(Collectors.toList()));
     }

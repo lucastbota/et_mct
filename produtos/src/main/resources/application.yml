@@ -3,6 +3,15 @@ micronaut:
     port: 8084
   application:
     name: produtos
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
 datasources:
   default:
     url: jdbc:mariadb://localhost:3306/productdb
@@ -10,7 +19,14 @@ datasources:
     username: usr_product
     password: 123r
     dialect: MYSQL
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        generate_statistics: true
+        hbm2ddl:
+          auto: update
 
 rabbitmq:
   host: localhost
@@ -20,3 +36,10 @@ rabbitmq:
   custom:
     queue:
       name: "baixa_estoque"
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+hystrix.stream.enabled: false

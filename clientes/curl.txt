@@ -4,5 +4,8 @@ GET:
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/cliente/{id}
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/cliente
 
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8082/metrics
+curl -i   -X GET http://localhost:8082/prometheus
+
 POST:
 curl -X POST  -H "Accept: Application/json" -H "Content-Type: application/json" http://localhost:8082/cliente -d '{"id":null,"nome":"Teresa do sorriso aparente", "localizacao": {"latitude":-20.8256892, "longitude": -49.3882889}}'

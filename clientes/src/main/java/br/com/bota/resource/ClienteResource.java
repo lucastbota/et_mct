@@ -5,6 +5,8 @@ import br.com.bota.service.ClienteService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
+import io.micronaut.tracing.annotation.ContinueSpan;
+import io.micronaut.tracing.annotation.SpanTag;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,25 +19,29 @@ public class ClienteResource {
     private ClienteService service;
 
     @Get("/{id}")
-    public HttpResponse<ClienteDTO> findById(UUID id) {
+    @ContinueSpan()
+    public HttpResponse<ClienteDTO> findById(@SpanTag("cliente.id") UUID id) {
         return HttpResponse.ok(ClienteDTO.toDTO(service.findById(id)));
     }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
+    @ContinueSpan
     public HttpResponse<List<ClienteDTO>> findAll() {
         var customers = service.findAll();
         return HttpResponse.ok(customers.stream().map(ClienteDTO::toDTO).collect(Collectors.toList()));
     }
 
     @Post
-    public HttpResponse<ClienteDTO> save(ClienteDTO dto) {
+    @ContinueSpan
+    public HttpResponse<ClienteDTO> save(@SpanTag("payload")ClienteDTO dto) {
         var saved = service.save(ClienteDTO.toEntity(dto));
         return HttpResponse.created(ClienteDTO.toDTO(saved));
     }
 
     @Patch
-    public HttpResponse<ClienteDTO> update(ClienteDTO dto) {
+    @ContinueSpan
+    public HttpResponse<ClienteDTO> update(@SpanTag("payload") ClienteDTO dto) {
         var saved = service.save(ClienteDTO.toEntity(dto));
         return HttpResponse.created(ClienteDTO.toDTO(saved));
     }

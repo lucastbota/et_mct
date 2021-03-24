@@ -3,4 +3,4 @@ defaultPackage: br.com.bota
 testFramework: junit
 sourceLanguage: java
 buildTool: maven
-features: [annotation-api, app-name, data, data-jpa, hibernate-validator, http-client, java, java-application, jdbc-hikari, junit, kafka, logback, lombok, mariadb, maven, netty-server, readme, shade, testcontainers, yaml]
+features: [annotation-api, app-name, data, data-jpa, hibernate-validator, http-client, java, java-application, jdbc-hikari, junit, kafka, logback, lombok, mariadb, maven, netty-server, readme, shade, testcontainers, management, micrometer, micrometer-prometheus, netflix-hystrix, tracing-jaeger, yaml]
