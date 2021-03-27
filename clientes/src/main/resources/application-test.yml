@@ -8,6 +8,10 @@ tracing:
   jaeger:
     enabled: false
 
+consul:
+  client:
+    registration:
+      enabled: false
 
 jpa:
   default:

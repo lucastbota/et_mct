@@ -27,3 +27,8 @@ rabbitmq:
   custom:
     queue:
       name: "baixa_estoque_teste"
+
+consul:
+  client:
+    registration:
+      enabled: false

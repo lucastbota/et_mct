@@ -1,6 +1,8 @@
 micronaut:
   application:
     name: pedidos
+  server:
+    port: 8080
 
   ##Fix io.micronaut.context.exceptions.NonUniqueBeanException: Multiple possible bean candidates found: [io.micronaut.scheduling.executor.ExecutorConfiguration, io.micronaut.scheduling.executor.ExecutorConfiguration]
   ##Causa: tanto o rabbitmq tanto o kafka utilizam o mesmo consumer.
@@ -37,11 +39,22 @@ kafka:
         step: PT1M
     enabled: true
 
+endpoints:
+  prometheus:
+    sensitive: false
+
 tracing:
   jaeger:
     enabled: true
     sampler:
       probability: 0.1
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
+
 hystrix.stream.enabled: false
 
 api:
