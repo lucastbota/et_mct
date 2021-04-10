@@ -6,12 +6,14 @@ const pedidoAPI = require('./pedido-api');
 const clientes = require('./data/clientes.json');
 const produtos = require('./data/produtos.json');
 
-//clientes.forEach(e => clienteAPI.create(JSON.stringify(e)));
-//produtos.forEach(e => produtoAPI.create(JSON.stringify(e)));
+ 
+clientes.forEach(e => clienteAPI.create(JSON.stringify(e)));
+
+produtos.forEach(e => produtoAPI.create(JSON.stringify(e)));
 
 
-for (let i = 0; i < 30; i++) {
-    createPedido();
+for (let i = 0; i < 3; i++) {
+   // createPedido();
 }
 
 

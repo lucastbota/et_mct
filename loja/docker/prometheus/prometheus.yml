@@ -1,0 +1,31 @@
+# my global config
+global:
+  scrape_interval:     120s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 120s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'my-monitoring'
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+rule_files:
+  # - "alert.rules"
+  # - "first.rules"
+  # - "second.rules"
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:7090']
+
+
+  - job_name: consul
+    metrics_path: /prometheus
+    consul_sd_configs:
+      - server: 'consul:8500'
+    relabel_configs:      
+      - source_labels: [__meta_consul_service]
+        target_label: job
