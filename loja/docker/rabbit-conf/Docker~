@@ -1,9 +1,0 @@
-FROM rabbitmq:3.8.12-management-alpine
-
-MAINTAINER <lucas.bota@zup.com.br>
-
-ADD rabbitmq.config /etc/rabbitmq/
-ADD definitions-2-25.json /etc/rabbitmq/
-
-
-EXPOSE 15672

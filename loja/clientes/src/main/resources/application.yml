@@ -32,20 +32,16 @@ jpa:
         hbm2ddl:
           auto: update
 
-
 tracing:
   jaeger:
     enabled: true
     sampler:
       probability: 0.1
 
-
-
 consul:
   client:
     registration:
       enabled: true
     defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
-
 
 hystrix.stream.enabled: false

@@ -18,20 +18,20 @@ micronaut:
   executors:
     consumer:
       type: WORK_STEALING
-kafka.bootstrap.servers: localhost:9092
+kafka.bootstrap.servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
 
 
 mongodb:
   collectionName: entregas
   databaseName: entregadb
-  uri: mongodb://root:123r@localhost:27017/admin
+  uri: mongodb://root:123r@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/admin
   cluster:
     maxWaitQueueSize: 5
   connectionPool:
     maxSize: 20
 
 
-rabbitmq.uri: amqp://localhost:5672
+rabbitmq.uri: amqp://${RABBIT_HOST:localhost}:${RABBIT_PORT:5672}
 
 
 tracing:

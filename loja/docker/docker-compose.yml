@@ -21,7 +21,6 @@ services:
       
   mariadb-produto:
     image: mariadb:10.5.8
-    container_name: produto_db
     restart: always
     ports:
     - 3306:3306
@@ -29,7 +28,7 @@ services:
       MYSQL_USER: usr_product
       MYSQL_PASSWORD: 123r
       MYSQL_ROOT_PASSWORD: 123r
-      MYSQL_DATABASE: productdb
+      MYSQL_DATABASE: produtodb
 
   mariadb-cliente:
     image: mariadb:10.5.8
@@ -56,12 +55,10 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: rabbit_produto
     hostname: localhost
     ports:
       - "5672:5672"
       - "15672:15672"
-    network_mode: "bridge"
     volumes:
       - ${PWD}/rabbit-conf/definitions-2-25.json:/opt/definitions.json:ro
       - ${PWD}/rabbit-conf/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
@@ -146,13 +143,71 @@ services:
       - 8082:8082
     depends_on: 
       - mariadb-cliente
+      - consul
     environment:
-      MICRONAUT_SERVER_HOST: clientes
-      MICRONAUT_SERVER_PORT: 8082
       DB_HOST: mariadb-cliente
       DB_PORT: 3306
       CONSUL_HOST: consul
       CONSUL_PORT: 8500
+
+  produtos:
+    build: ../produtos
+    restart: on-failure
+    ports:
+      - 8084:8084
+    depends_on: 
+      - mariadb-produto
+      - consul
+    environment:
+      DB_HOST: mariadb-produto
+      DB_PORT: 3306
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+
+  pedidos:
+    build: ../pedidos
+    restart: on-failure
+    ports:
+      - 8080:8080
+    depends_on: 
+      - mariadb-pedido
+      - consul
+      - rabbitmq
+      - kafka
+      - clientes
+      - produtos
+    environment:
+      DB_HOST: mariadb-pedido
+      DB_PORT: 3306
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      API_CLIENTE_HOST: clientes
+      API_CLIENTE_PORT: 8082
+      API_PRODUTO_HOST: produtos
+      API_PRODUTO_PORT: 8084
+
+  entregas:
+    build: ../entregas
+    restart: on-failure
+    ports:
+      - 8087:8087
+    depends_on: 
+      - mongo
+      - rabbitmq
+      - kafka
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
 
 networks: 
   broker-kafka:
