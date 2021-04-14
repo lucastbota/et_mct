@@ -36,7 +36,9 @@ tracing:
   jaeger:
     enabled: true
     sampler:
-      probability: 0.1
+      probability: 1 #Probability 1 = 100% 0.1 =10%. 
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
 
 consul:
   client:

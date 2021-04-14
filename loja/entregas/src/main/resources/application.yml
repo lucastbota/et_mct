@@ -39,4 +39,6 @@ tracing:
     enabled: true
     sampler:
       probability: 0.1
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
 hystrix.stream.enabled: false

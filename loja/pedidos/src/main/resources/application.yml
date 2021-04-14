@@ -2,7 +2,7 @@ micronaut:
   application:
     name: pedidos
   server:
-    port: 8080
+    port: 8085
 
   ##Fix io.micronaut.context.exceptions.NonUniqueBeanException: Multiple possible bean candidates found: [io.micronaut.scheduling.executor.ExecutorConfiguration, io.micronaut.scheduling.executor.ExecutorConfiguration]
   ##Causa: tanto o rabbitmq tanto o kafka utilizam o mesmo consumer.
@@ -48,6 +48,8 @@ tracing:
     enabled: true
     sampler:
       probability: 0.1
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
 
 consul:
   client:
