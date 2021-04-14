@@ -1,4 +1,4 @@
-package br.com.bota.integration.exception;
+package br.com.bota.resource.exception;
 
 import br.com.bota.service.rule.ProdutoNotFoundException;
 import io.micronaut.context.annotation.Requires;

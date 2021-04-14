@@ -1,4 +1,4 @@
-package br.com.bota.integration;
+package br.com.bota.resource;
 
 import br.com.bota.dto.ProdutoDTO;
 import br.com.bota.service.ProdutoService;
@@ -6,7 +6,6 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import io.micronaut.tracing.annotation.ContinueSpan;
-import io.micronaut.tracing.annotation.NewSpan;
 import io.micronaut.tracing.annotation.SpanTag;
 
 import javax.inject.Inject;

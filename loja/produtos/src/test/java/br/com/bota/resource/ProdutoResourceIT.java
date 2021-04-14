@@ -1,4 +1,4 @@
-package br.com.bota.integration;
+package br.com.bota.resource;
 
 import br.com.bota.entity.Produto;
 import br.com.bota.repository.ProdutoRepository;

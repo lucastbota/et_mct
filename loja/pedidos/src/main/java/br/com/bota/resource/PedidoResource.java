@@ -25,7 +25,7 @@ public class PedidoResource {
     @ContinueSpan
     public HttpResponse<PedidoDTO> criar(@SpanTag("pedido.criar") PedidoDTO dto) {
         var toSave = facade.criar(PedidoDTO.toEntity(dto));
-        return HttpResponse.ok(PedidoDTO.toDTO(toSave));
+        return HttpResponse.created(PedidoDTO.toDTO(toSave));
     }
 
     @Get("/{clienteId}")
