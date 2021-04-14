@@ -12,8 +12,9 @@ clientes.forEach(e => clienteAPI.create(JSON.stringify(e)));
 produtos.forEach(e => produtoAPI.create(JSON.stringify(e)));
 
 
+//TODO colocar o criar pedido após o cb de clientes e produtos. Por hora, comente a linha 17 e descomente após a criação dos recursos-base.
 for (let i = 0; i < 3; i++) {
-   // createPedido();
+  createPedido();
 }
 
 
