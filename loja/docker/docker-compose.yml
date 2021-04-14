@@ -65,16 +65,12 @@ services:
     
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    networks: 
-      - broker-kafka
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-      
+
   kafka:
     image: confluentinc/cp-kafka:latest
-    networks: 
-      - broker-kafka
     depends_on:
       - zookeeper
     ports:
@@ -89,8 +85,6 @@ services:
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
-    networks: 
-      - broker-kafka
     depends_on:
       - kafka
     ports:
@@ -126,10 +120,18 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 7090:9090
+  nodeexporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    container_name: cadvisor
+    ports:
+    - 8080:8080
 
   grafana:
     image: grafana/grafana:latest
-    container_name: monitoring_grafana
     restart: on-failure
     environment:
       GF_SECURITY_ADMIN_PASSWORD: admin
@@ -144,11 +146,13 @@ services:
     depends_on: 
       - mariadb-cliente
       - consul
+      - jaeger
     environment:
       DB_HOST: mariadb-cliente
       DB_PORT: 3306
       CONSUL_HOST: consul
       CONSUL_PORT: 8500
+      JAEGER_HOST: jaeger
 
   produtos:
     build: ../produtos
@@ -158,6 +162,7 @@ services:
     depends_on: 
       - mariadb-produto
       - consul
+      - jaeger
     environment:
       DB_HOST: mariadb-produto
       DB_PORT: 3306
@@ -165,12 +170,13 @@ services:
       CONSUL_PORT: 8500
       RABBIT_HOST: rabbitmq
       RABBIT_PORT: 5672
+      JAEGER_HOST: jaeger
 
   pedidos:
     build: ../pedidos
     restart: on-failure
     ports:
-      - 8080:8080
+      - 8085:8085
     depends_on: 
       - mariadb-pedido
       - consul
@@ -178,6 +184,7 @@ services:
       - kafka
       - clientes
       - produtos
+      - jaeger
     environment:
       DB_HOST: mariadb-pedido
       DB_PORT: 3306
@@ -186,11 +193,12 @@ services:
       RABBIT_HOST: rabbitmq
       RABBIT_PORT: 5672
       KAFKA_HOST: kafka
-      KAFKA_PORT: 9092
+      KAFKA_PORT: 29092
       API_CLIENTE_HOST: clientes
       API_CLIENTE_PORT: 8082
       API_PRODUTO_HOST: produtos
       API_PRODUTO_PORT: 8084
+      JAEGER_HOST: jaeger
 
   entregas:
     build: ../entregas
@@ -201,14 +209,12 @@ services:
       - mongo
       - rabbitmq
       - kafka
+      - jaeger
     environment:
       MONGO_HOST: mongo
       MONGO_PORT: 27017
       RABBIT_HOST: rabbitmq
       RABBIT_PORT: 5672
       KAFKA_HOST: kafka
-      KAFKA_PORT: 9092
-
-networks: 
-  broker-kafka:
-    driver: bridge 
+      KAFKA_PORT: 29092
+      JAEGER_HOST: jaeger
