@@ -2,7 +2,6 @@ package br.com.bota;
 
 import br.com.bota.dto.ItemPedidoDTO;
 import br.com.bota.dto.PedidoDTO;
-import br.com.bota.repository.PedidoRepository;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
@@ -27,8 +26,6 @@ public class PedidoTest {
     @Inject
     @Client("/pedido")
     private RxHttpClient rxHttpClient;
-    @Inject
-    private PedidoRepository repository;
 
     @Test
     void createTest() {

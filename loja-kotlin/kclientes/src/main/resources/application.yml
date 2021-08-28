@@ -1,0 +1,52 @@
+micronaut:
+  server:
+    port: 8082
+  application:
+    name: clientes
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
+endpoints:
+  prometheus:
+    sensitive: false
+
+datasources:
+  default:
+    url: "jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3307}/clientedb"
+    driverClassName: org.mariadb.jdbc.Driver
+    username: usr_client
+    password: 123r
+    dialect: MYSQL
+
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - "br.com.bota.entity"
+    properties:
+      hibernate:
+        generate_statistics: true
+        hbm2ddl:
+          auto: update
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 1 #Probability 1 = 100% 0.1 =10%.
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
+
+hystrix.stream.enabled: false

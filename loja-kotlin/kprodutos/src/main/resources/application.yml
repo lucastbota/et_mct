@@ -1,0 +1,58 @@
+micronaut:
+  server:
+    port: 8084
+  application:
+    name: produtos
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
+endpoints:
+  prometheus:
+    sensitive: false
+
+datasources:
+  default:
+    url: "jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/produtodb"
+    driverClassName: org.mariadb.jdbc.Driver
+    username: usr_product
+    password: 123r
+    dialect: MYSQL
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        generate_statistics: true
+        hbm2ddl:
+          auto: update
+
+rabbitmq:
+  host: "${RABBIT_HOST:localhost}"
+  port: "${RABBIT_PORT:5672}"
+  username: guest
+  password: guest
+  custom:
+    queue:
+      name: "baixa_estoque"
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
+
+hystrix.stream.enabled: false

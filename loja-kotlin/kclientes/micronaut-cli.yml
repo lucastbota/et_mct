@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: br.com.bota
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: maven
+features: [annotation-api, app-name, data, data-jpa, hibernate-validator, http-client, jackson-xml, jdbc-hikari, junit, kotlin, kotlin-application, management, mariadb, maven, micrometer, micrometer-prometheus, netflix-hystrix, netty-server, readme, shade, slf4j-simple, tracing-jaeger, yaml]

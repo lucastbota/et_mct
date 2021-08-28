@@ -1,0 +1,37 @@
+datasources:
+  default:
+    url: "jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/produtodb"
+    driverClassName: org.mariadb.jdbc.Driver
+    username: usr_product
+    password: 123r
+    dialect: MYSQL
+
+tracing:
+  jaeger:
+    enabled: false
+
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - "br.com.bota.entity"
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+        format_sql: true
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+  custom:
+    queue:
+      name: "baixa_estoque_teste"
+
+consul:
+  client:
+    registration:
+      enabled: false

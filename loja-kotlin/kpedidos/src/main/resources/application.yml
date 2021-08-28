@@ -1,0 +1,65 @@
+micronaut:
+  application:
+    name: pedidos
+  server:
+    port: 8085
+
+  ##Fix io.micronaut.context.exceptions.NonUniqueBeanException: Multiple possible bean candidates found: [io.micronaut.scheduling.executor.ExecutorConfiguration, io.micronaut.scheduling.executor.ExecutorConfiguration]
+  ##Causa: tanto o rabbitmq tanto o kafka utilizam o mesmo consumer.
+  ##Configuração: https://docs.micronaut.io/latest/guide/index.html#io.micronaut.scheduling.executor.UserExecutorConfiguration
+  executors:
+    consumer:
+      type: WORK_STEALING
+datasources:
+  default:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3308}/pedidodb
+    driverClassName: org.mariadb.jdbc.Driver
+    username: usr_pedido
+    password: 123r
+    schema-generate: CREATE_DROP
+    dialect: MYSQL
+jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+rabbitmq:
+  host: ${RABBIT_HOST:localhost}
+  port: ${RABBIT_PORT:5672}
+  username: guest
+  password: guest
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
+
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
+endpoints:
+  prometheus:
+    sensitive: false
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
+
+hystrix.stream.enabled: false
+
+api:
+  url:
+    cliente: http://${API_CLIENTE_HOST:localhost}:${API_CLIENTE_PORT:8082}/cliente
+    produto: http://${API_PRODUTO_HOST:localhost}:${API_PRODUTO_PORT:8084}/produto

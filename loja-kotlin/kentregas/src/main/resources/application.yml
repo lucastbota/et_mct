@@ -1,0 +1,44 @@
+micronaut:
+  server:
+    port: 8087
+  application:
+    name: entregas
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+
+  ##Fix io.micronaut.context.exceptions.NonUniqueBeanException: Multiple possible bean candidates found: [io.micronaut.scheduling.executor.ExecutorConfiguration, io.micronaut.scheduling.executor.ExecutorConfiguration]
+  ##Causa: tanto o rabbitmq tanto o kafka utilizam o mesmo consumer.
+  ##Configuração: https://docs.micronaut.io/latest/guide/index.html#io.micronaut.scheduling.executor.UserExecutorConfiguration
+  executors:
+    consumer:
+      type: WORK_STEALING
+kafka.bootstrap.servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
+
+
+mongodb:
+  collectionName: entregas
+  databaseName: entregadb
+  uri: mongodb://root:123r@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/admin
+  cluster:
+    maxWaitQueueSize: 5
+  connectionPool:
+    maxSize: 20
+
+
+rabbitmq.uri: amqp://${RABBIT_HOST:localhost}:${RABBIT_PORT:5672}
+
+
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+    sender:
+      agentHost: ${JAEGER_HOST:localhost}
+hystrix.stream.enabled: false

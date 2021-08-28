@@ -1,4 +1,0 @@
-bintray:
-  organization: micronaut
-  repository: profiles
-  apiversion: v1
