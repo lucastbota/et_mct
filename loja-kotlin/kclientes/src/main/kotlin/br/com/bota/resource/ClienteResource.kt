@@ -9,7 +9,7 @@ import io.micronaut.http.annotation.*
 import io.micronaut.tracing.annotation.ContinueSpan
 import io.micronaut.tracing.annotation.SpanTag
 import java.util.*
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @Controller("/cliente")
 open class ClienteResource @Inject constructor(private val clienteService: ClienteService) {

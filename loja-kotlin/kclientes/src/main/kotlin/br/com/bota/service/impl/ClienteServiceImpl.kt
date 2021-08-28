@@ -5,8 +5,8 @@ import br.com.bota.exceptions.rule.CustomerNotFoundException
 import br.com.bota.repository.ClienteRepository
 import br.com.bota.service.ClienteService
 import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import javax.transaction.Transactional
 import javax.validation.Valid
 
