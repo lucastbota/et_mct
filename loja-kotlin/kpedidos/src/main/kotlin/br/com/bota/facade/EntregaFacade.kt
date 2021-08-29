@@ -7,6 +7,7 @@ import br.com.bota.lojalib.dto.EntregaDTO
 import br.com.bota.lojalib.dto.ItemEntregaDTO
 import br.com.bota.ws.highapi.ProdutoClient
 import br.com.bota.ws.lowapi.ClienteClient
+import io.reactivex.Flowable
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.time.Instant
@@ -24,7 +25,7 @@ class EntregaFacadeImpl @Inject constructor(
     override fun entregar(pedidos: List<Pedido>) {
         pedidos.forEach {
             val cliente: ClienteDTO = clienteClient.buscarClientePorId(it.clienteId!!).blockingGet()
-            val produtos = it.itens?.map { itp -> produtoClient.buscarPorId(itp.produtoId).blockingFirst() }
+            val produtos = it.itens?.map { itp -> Flowable.fromPublisher(produtoClient.buscarPorId(itp.produtoId)).blockingFirst() }
             val itens =
                 it.itens?.map { ie ->
                     ItemEntregaDTO.builder().quantidade(ie.quantidade).valor(ie.valor)
