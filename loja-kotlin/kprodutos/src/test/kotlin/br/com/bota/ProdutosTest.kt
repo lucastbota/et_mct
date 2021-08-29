@@ -2,6 +2,7 @@ package br.com.bota
 
 import br.com.bota.entity.Produto
 import br.com.bota.lojalib.dto.ProdutoDTO
+import br.com.bota.lojalib.utils.ObjectMapperUtils
 import br.com.bota.repository.ProdutoRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.StreamingHttpClient
@@ -59,10 +60,16 @@ class ProdutosTest {
     fun `should test customer validation`() {
         val dto = ProdutoDTO()
         val requisition: HttpRequest<ProdutoDTO> = HttpRequest.POST("/", dto)
-        val exception = assertThrows(HttpClientResponseException::class.java) {
+        val httpClientResponseException = assertThrows(HttpClientResponseException::class.java) {
             streamingHttpClient.toBlocking().retrieve(requisition)
         }
-        val body = exception.response.getBody(String::class.java).orElse("")
-        assertEquals("{\"message\":\"Bad Request\",\"_links\":{\"self\":{\"href\":\"/produto\",\"templated\":false}},\"_embedded\":{\"errors\":[{\"message\":\"O Produto deve ter uma descrição.\"}]}}", body)
+        //"{\"message\":\"Bad Request\",\"_links\":{\"self\":{\"href\":\"/produto\",\"templated\":false}},\"_embedded\":{\"errors\":[{\"message\":\"O Produto deve ter uma descrição.\"}]}}"
+        val json = ObjectMapperUtils.getFromString(httpClientResponseException.response.body().toString())
+        assertNotNull(json)
+        assertEquals("Bad Request", json.get("message").asText())
+        assertEquals(
+            "O Produto deve ter uma descrição.",
+            json.get("_embedded").get("errors")[0]["message"].asText()
+        )
     }
 }

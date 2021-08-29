@@ -21,7 +21,7 @@ open class ClienteServiceImpl(
     }
 
     @Transactional
-    override fun save(@Valid cliente: Cliente): Cliente {
+    override fun save(cliente: Cliente): Cliente {
         return if (cliente.id === null) {
             repository.save(cliente)
         } else {

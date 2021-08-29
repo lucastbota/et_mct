@@ -7,8 +7,6 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Produces
-import io.micronaut.http.hateoas.JsonError
-import io.micronaut.http.hateoas.Link
 import io.micronaut.http.server.exceptions.ExceptionHandler
 import io.micronaut.http.server.exceptions.response.ErrorContext
 import io.micronaut.http.server.exceptions.response.ErrorResponseProcessor
@@ -25,14 +23,14 @@ import javax.validation.ConstraintViolationException
 open class ConstraintValidationResource(private val errorResponseProcessor: ErrorResponseProcessor<Any>) :
     ExceptionHandler<ConstraintViolationException, HttpResponse<*>> {
     override fun handle(request: HttpRequest<*>, exception: ConstraintViolationException): HttpResponse<Any> {
-        val messages = exception.constraintViolations.joinToString("\n") {
+        val messages = exception.constraintViolations.map {
             it.message
-        }
+        }.sorted()
         return errorResponseProcessor.processResponse(
             ErrorContext.builder(request)
                 .cause(exception)
-                .errorMessage(messages)
-                .build(), HttpResponse.badRequest(JsonError(messages).link(Link.SELF, Link.of(request.uri)))
+                .errorMessages( messages)
+                .build(), HttpResponse.badRequest(messages)
         )
     }
 }

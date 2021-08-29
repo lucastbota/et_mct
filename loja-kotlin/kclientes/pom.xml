@@ -152,6 +152,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>io.jaegertracing</groupId>
             <artifactId>jaeger-thrift</artifactId>
             <scope>runtime</scope>
@@ -159,11 +164,6 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -200,6 +200,11 @@
                                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                             </sourceDirs>
                             <annotationProcessorPaths combine.self="override">
+                                <annotationProcessorPath>
+                                    <groupId>io.micronaut</groupId>
+                                    <artifactId>micronaut-http-validation</artifactId>
+                                    <version>${micronaut.version}</version>
+                                </annotationProcessorPath>
                                 <annotationProcessorPath>
                                     <groupId>io.micronaut</groupId>
                                     <artifactId>micronaut-inject-java</artifactId>
