@@ -1,0 +1,220 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123r
+      MONGO_INITDB_DATABASE: entregadb
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 7081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123r
+      
+  mariadb-produto:
+    image: mariadb:10.5.8
+    restart: always
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_USER: usr_product
+      MYSQL_PASSWORD: 123r
+      MYSQL_ROOT_PASSWORD: 123r
+      MYSQL_DATABASE: produtodb
+
+  mariadb-cliente:
+    image: mariadb:10.5.8
+    restart: always
+    ports:
+    - 3307:3306
+    environment:
+      MYSQL_USER: usr_client
+      MYSQL_PASSWORD: 123r
+      MYSQL_ROOT_PASSWORD: 123r
+      MYSQL_DATABASE: clientedb
+
+  mariadb-pedido:
+    image: mariadb:10.5.8
+    container_name: pedido_db
+    restart: always
+    ports:
+    - 3308:3306
+    environment:
+      MYSQL_USER: usr_pedido
+      MYSQL_PASSWORD: 123r
+      MYSQL_ROOT_PASSWORD: 123r
+      MYSQL_DATABASE: pedidodb
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: localhost
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ${PWD}/rabbit-conf/definitions-2-25.json:/opt/definitions.json:ro
+      - ${PWD}/rabbit-conf/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+    
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    depends_on:
+      - kafka
+    ports:
+      - 19000:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka:29092
+      
+  jaeger:
+    image: jaegertracing/all-in-one:1.22
+    ports:
+      - 5775:5775/udp
+      - 6831:6831/udp
+      - 6832:6832/udp 
+      - 5778:5778
+      - 16686:16686 
+      - 14268:14268
+      - 14250:14250
+      - 9411:9411
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+
+  consul:
+    image: consul
+    ports:
+      - 8500:8500
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: on-failure
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 7090:9090
+  nodeexporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    container_name: cadvisor
+    ports:
+    - 8080:8080
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: on-failure
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - 3000:3000
+
+  clientes:
+    build: ../kclientes
+    restart: on-failure
+    ports:
+      - 8082:8082
+    depends_on: 
+      - mariadb-cliente
+      - consul
+      - jaeger
+    environment:
+      DB_HOST: mariadb-cliente
+      DB_PORT: 3306
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      JAEGER_HOST: jaeger
+
+  produtos:
+    build: ../kprodutos
+    restart: on-failure
+    ports:
+      - 8084:8084
+    depends_on: 
+      - mariadb-produto
+      - consul
+      - jaeger
+    environment:
+      DB_HOST: mariadb-produto
+      DB_PORT: 3306
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      JAEGER_HOST: jaeger
+
+  pedidos:
+    build: ../kpedidos
+    restart: on-failure
+    ports:
+      - 8085:8085
+    depends_on: 
+      - mariadb-pedido
+      - consul
+      - rabbitmq
+      - kafka
+      - clientes
+      - produtos
+      - jaeger
+    environment:
+      DB_HOST: mariadb-pedido
+      DB_PORT: 3306
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 29092
+      API_CLIENTE_HOST: clientes
+      API_CLIENTE_PORT: 8082
+      API_PRODUTO_HOST: produtos
+      API_PRODUTO_PORT: 8084
+      JAEGER_HOST: jaeger
+
+  entregas:
+    build: ../kentregas
+    restart: on-failure
+    ports:
+      - 8087:8087
+    depends_on: 
+      - mongo
+      - rabbitmq
+      - kafka
+      - jaeger
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 29092
+      JAEGER_HOST: jaeger

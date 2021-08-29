@@ -169,6 +169,7 @@
     </dependencies>
 
     <build>
+        <finalName>kclientes</finalName>
         <plugins>
             <plugin>
                 <groupId>io.micronaut.build</groupId>
